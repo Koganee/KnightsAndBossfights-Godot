@@ -19,10 +19,15 @@ var bobot = load("res://scenes//bobot.tscn//$CollisionShapeBobot")
 @onready var collision_dialogue = $detection_area/CollisionDialogue
 @onready var collision_shape_bobot = $CollisionShapeBobot
 
+const loading_scene_path = "res://scenes//loadingscreen_2.tscn"
 
 func _physics_process(delta):
-	
-	
+	if $RayCastDialogue.is_colliding():
+			if global.hasShard == true:
+				if Input.is_action_just_pressed("interact"):
+					get_tree().change_scene_to_file(loading_scene_path)
+			
+			
 	if bobot_in_range == true:
 		if Input.is_action_just_pressed("interact"):
 			#bobot.set_deferred("disabled", true)
@@ -39,7 +44,9 @@ func _physics_process(delta):
 		if Input.is_action_just_pressed("interact"):
 			#bobot.set_deferred("disabled", true)
 			dialogue_started = true
-			DialogueManager.show_example_dialogue_balloon(load("res://velius.dialogue"), "start")		
+			await DialogueManager.show_example_dialogue_balloon(load("res://velius.dialogue"), "start")
+			#if global.dialogue_started_switch_scene == false:
+			#	get_tree().change_scene_to_file(loading_scene_path)		
 	
 	# Add the gravity.
 	if not is_on_floor():
@@ -104,6 +111,7 @@ func _on_timer_timeout():
 var bobot_in_range = false
 var king_in_range = false
 var velius_in_range = false
+var portal_in_range = false
 
 
 
@@ -116,6 +124,8 @@ func _on_detection_area_body_entered(body):
 		king_in_range = true
 	if body.has_method("velius"):
 		velius_in_range = true	
+	if body.has_method("portal"):
+		portal_in_range = true	
 
 
 func _on_detection_area_body_exited(body):
@@ -125,3 +135,5 @@ func _on_detection_area_body_exited(body):
 		king_in_range = false
 	if body.has_method("velius"):
 		velius_in_range = false
+	if body.has_method("portal"):
+		portal_in_range = false	
