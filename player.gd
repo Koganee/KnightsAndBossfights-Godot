@@ -12,7 +12,7 @@ var is_dashing = false
 var time = 0.6
 
 var dialogue_started = false
-var bobot = load("res://scenes//bobot.tscn//$CollisionShapeBobot")
+#var bobot = load("res://scenes//bobot.tscn//$CollisionShapeBobot")
 
 @onready var ray_cast_dialogue = $RayCastDialogue
 @onready var animated_sprite = $AnimatedSprite2D
