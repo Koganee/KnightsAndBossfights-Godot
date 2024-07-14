@@ -13,11 +13,14 @@ var time = 0.6
 
 var dialogue_started = false
 #var bobot = load("res://scenes//bobot.tscn//$CollisionShapeBobot")
-
+@onready var player = $"."
 @onready var ray_cast_dialogue = $RayCastDialogue
 @onready var animated_sprite = $AnimatedSprite2D
 @onready var collision_dialogue = $detection_area/CollisionDialogue
 @onready var collision_shape_bobot = $CollisionShapeBobot
+const PLAYER_BUBBLE = preload("res://assets/sprites/PlayerBubble.png")
+@onready var collision_shape_2d = $CollisionShape2D
+@onready var playerSprite = $AnimatedSprite2D
 
 const loading_scene_path = "res://scenes//loadingscreen_2.tscn"
 
@@ -48,6 +51,17 @@ func _physics_process(delta):
 			#if global.dialogue_started_switch_scene == false:
 			#	get_tree().change_scene_to_file(loading_scene_path)		
 	
+	if bubble_in_range == true:
+		velocity.y = JUMP_VELOCITY
+		if Input.is_action_just_pressed("jump"):
+			bubble_in_range = false
+	
+	if chocBot_in_range == true:
+		if Input.is_action_just_pressed("interact"):
+			await DialogueManager.show_example_dialogue_balloon(load("res://bobotChocolate.dialogue"), "start")
+	
+	
+	
 	# Add the gravity.
 	if not is_on_floor():
 		velocity.y += gravity * delta
@@ -70,6 +84,8 @@ func _physics_process(delta):
 			animated_sprite.play("idle")
 		else:
 			animated_sprite.play("run")
+	elif bubble_in_range == true:
+		animated_sprite.play("bubbleJump")		
 	else:
 		animated_sprite.play("jump")
 	
@@ -112,8 +128,8 @@ var bobot_in_range = false
 var king_in_range = false
 var velius_in_range = false
 var portal_in_range = false
-
-
+var bubble_in_range = false
+var chocBot_in_range = false
 
 
 
@@ -126,6 +142,12 @@ func _on_detection_area_body_entered(body):
 		velius_in_range = true	
 	if body.has_method("portal"):
 		portal_in_range = true	
+	if body.has_method("bubble"):
+		bubble_in_range = true	
+		print("Test!")
+	if body.has_method("bobotChocolate"):
+		chocBot_in_range = true	
+		print("Test!")
 
 
 func _on_detection_area_body_exited(body):
@@ -137,3 +159,12 @@ func _on_detection_area_body_exited(body):
 		velius_in_range = false
 	if body.has_method("portal"):
 		portal_in_range = false	
+	if body.has_method("bubble"):
+		bubble_in_range = false	
+	if body.has_method("bobotChocolate"):
+		chocBot_in_range = false	
+
+
+func _on_bubble_body_entered(body):
+	bubble_in_range = true	
+	print("Test!")
