@@ -59,8 +59,13 @@ func _physics_process(delta):
 	if chocBot_in_range == true:
 		if Input.is_action_just_pressed("interact"):
 			await DialogueManager.show_example_dialogue_balloon(load("res://bobotChocolate.dialogue"), "start")
+	if bubbleSeller_in_range == true:
+		if Input.is_action_just_pressed("interact"):
+			await DialogueManager.show_example_dialogue_balloon(load("res://bubbleSeller.dialogue"), "start")
 	
-	
+	if enterCastle_in_range == true:
+		if Input.is_action_just_pressed("interact"):
+			get_tree().change_scene_to_file(loading_scene_path)
 	
 	# Add the gravity.
 	if not is_on_floor():
@@ -130,8 +135,8 @@ var velius_in_range = false
 var portal_in_range = false
 var bubble_in_range = false
 var chocBot_in_range = false
-
-
+var bubbleSeller_in_range = false
+var enterCastle_in_range = false
 
 func _on_detection_area_body_entered(body):
 	if body.has_method("bobot"):
@@ -142,12 +147,14 @@ func _on_detection_area_body_entered(body):
 		velius_in_range = true	
 	if body.has_method("portal"):
 		portal_in_range = true	
-	if body.has_method("bubble"):
-		bubble_in_range = true	
-		print("Test!")
+	#if body.has_method("bubble"):
+	#	bubble_in_range = true	
+	#	print("Test!")
 	if body.has_method("bobotChocolate"):
 		chocBot_in_range = true	
 		print("Test!")
+	if body.has_method("bubbleSeller"):
+		bubbleSeller_in_range = true	
 
 
 func _on_detection_area_body_exited(body):
@@ -162,9 +169,15 @@ func _on_detection_area_body_exited(body):
 	if body.has_method("bubble"):
 		bubble_in_range = false	
 	if body.has_method("bobotChocolate"):
-		chocBot_in_range = false	
+		chocBot_in_range = false
+	if body.has_method("bubbleSeller"):
+		bubbleSeller_in_range = false			
 
 
 func _on_bubble_body_entered(body):
 	bubble_in_range = true	
 	print("Test!")
+
+
+func _on_enter_castle_body_entered(body):
+	enterCastle_in_range = true
