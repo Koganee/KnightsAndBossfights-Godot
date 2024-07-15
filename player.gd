@@ -181,3 +181,6 @@ func _on_bubble_body_entered(body):
 
 func _on_enter_castle_body_entered(body):
 	enterCastle_in_range = true
+	print("Test!")
+func _on_enter_castle_body_exited(body):
+	enterCastle_in_range = false
