@@ -22,7 +22,7 @@ const PLAYER_BUBBLE = preload("res://assets/sprites/PlayerBubble.png")
 @onready var collision_shape_2d = $CollisionShape2D
 @onready var playerSprite = $AnimatedSprite2D
 
-const loading_scene_path = "res://scenes//loadingscreen_2.tscn"
+const loading_scene_path = "res://scenes//candy_kingdom.tscn"
 
 func _physics_process(delta):
 	if $RayCastDialogue.is_colliding():
