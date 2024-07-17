@@ -23,6 +23,7 @@ const PLAYER_BUBBLE = preload("res://assets/sprites/PlayerBubble.png")
 @onready var playerSprite = $AnimatedSprite2D
 
 const loading_scene_path = "res://scenes//candy_kingdom.tscn"
+const racing_gmae_load = "res://scenes/racinggame.tscn"
 
 func _physics_process(delta):
 	if $RayCastDialogue.is_colliding():
@@ -62,11 +63,14 @@ func _physics_process(delta):
 	if bubbleSeller_in_range == true:
 		if Input.is_action_just_pressed("interact"):
 			await DialogueManager.show_example_dialogue_balloon(load("res://bubbleSeller.dialogue"), "start")
-	
+	if candyking_in_range == true:
+		if Input.is_action_just_pressed("interact"):
+			await DialogueManager.show_example_dialogue_balloon(load("res://candyking.dialogue"), "start")
 	if enterCastle_in_range == true:
 		if Input.is_action_just_pressed("interact"):
 			get_tree().change_scene_to_file(loading_scene_path)
-	
+	if global.readyToRace == true:
+		get_tree().change_scene_to_file(racing_gmae_load)
 	# Add the gravity.
 	if not is_on_floor():
 		velocity.y += gravity * delta
@@ -137,6 +141,7 @@ var bubble_in_range = false
 var chocBot_in_range = false
 var bubbleSeller_in_range = false
 var enterCastle_in_range = false
+var candyking_in_range = false
 
 func _on_detection_area_body_entered(body):
 	if body.has_method("bobot"):
@@ -184,3 +189,10 @@ func _on_enter_castle_body_entered(body):
 	print("Test!")
 func _on_enter_castle_body_exited(body):
 	enterCastle_in_range = false
+
+#CandyKing--------------------------------
+func _on_candy_king_area_shape_entered(area_rid, area, area_shape_index, local_shape_index):
+	candyking_in_range = true
+func _on_candy_king_area_shape_exited(area_rid, area, area_shape_index, local_shape_index):
+	candyking_in_range = false
+#CandyKing--------------------------------
