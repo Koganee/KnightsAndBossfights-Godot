@@ -11,4 +11,7 @@ var sensor_AL = 0
 var sensor_AD = 0
 var sensor_AU = 0
 var sensor_AR = 0
+
+var rhythmScore = 0
+var rhythmLives = 5
 #Rhythm Game
