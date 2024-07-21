@@ -9,10 +9,11 @@ func _process(delta):
 	if sensor == 1:
 		if Input.is_action_just_pressed("ui_down"):
 			animation_player.play("Good")
+			global.rhythmScore += 1
 	if sensor == 0:
 		if Input.is_action_just_pressed("ui_down"):
 			animation_player.play("Bad")		
-	
+			global.rhythmLives -= 1
 	
 
 
