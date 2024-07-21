@@ -5,13 +5,17 @@ const AU = preload("res://scenes/move_arrow_up.tscn")
 const AD = preload("res://scenes/move_arrow_down.tscn")
 const AR = preload("res://scenes/move_right_arrow.tscn")
 
+@onready var score_count = $ScoreCount
+
+
 var random = 0
 var RNG = RandomNumberGenerator.new()
 
 
 func _process(delta):
-	pass
-
+	score_count.text = "Score:" + str(global.rhythmScore)
+	if global.rhythmLives == 0:
+		print("Fail!")
 
 func _on_timer_timeout():
 	$Timer.start()
